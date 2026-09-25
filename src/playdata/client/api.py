@@ -6,7 +6,7 @@ import requests
 from httpx import HTTPError
 from requests import Response
 
-from utils.constants import VALID_APIS
+from playdata.utils.constants import VALID_APIS
 
 logger = logging.getLogger(__name__)
 
@@ -60,6 +60,8 @@ class BaseAPIClient(ABC):
         Raises:
             ValueError: If the resolved API has no known header format.
         """
+        logger.info(f"Building headers for {self.name}...")
+
         match self.name:
             case "API-Sports":
                 return {"x-apisports-key": self.api_key}
@@ -76,14 +78,18 @@ class BaseAPIClient(ABC):
         Returns:
             The absolute url for the endpoint.
         """
+        logger.info(f"Building request URL for the following endpoint: {endpoint}...")
+
         return f"https://{self.base_url}/{endpoint}"
 
     @abstractmethod
-    def get_from_api(self, url: str) -> Any:
+    def get_from_api(self, url: str, headers: dict[str, str]) -> Any:
         """Perform a GET request and decode the JSON response.
 
         Args:
             url: Absolute url to request.
+            headers: Headers to send with the request, usually the
+                output of build_headers.
 
         Returns:
             The decoded JSON payload.
@@ -92,8 +98,10 @@ class BaseAPIClient(ABC):
             HTTPError: If the request fails with an HTTP error.
             Exception: If any other unexpected error occurs.
         """
+        logger.info(f"Getting data from {url}...")
+
         try:
-            response: Response = requests.get(url)
+            response: Response = requests.get(url=url, headers=headers)
             data: Any = response.json()
         except HTTPError as err:
             raise HTTPError(
@@ -104,4 +112,5 @@ class BaseAPIClient(ABC):
                 f"An unexpected error occurred while making GET on {url}: {err}"
             ) from err
 
+        logger.info("Retrieved data!")
         return data

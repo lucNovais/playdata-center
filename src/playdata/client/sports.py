@@ -1,7 +1,7 @@
 import logging
 from typing import Any
 
-from client.api import BaseAPIClient
+from playdata.client.api import BaseAPIClient
 
 logger = logging.getLogger(__name__)
 
@@ -24,5 +24,5 @@ class APISports(BaseAPIClient):
     def build_request_url(self, endpoint: str) -> str:
         return super().build_request_url(endpoint)
 
-    def get_from_api(self, url: str) -> Any:
-        return super().get_from_api(url)
+    def get_from_api(self, url: str, headers: dict[str, str]) -> Any:
+        return super().get_from_api(url, headers)

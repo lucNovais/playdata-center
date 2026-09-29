@@ -1,0 +1,19 @@
+api_version: "v3"
+api_url: "football.api-sports.io"
+
+support_endpoints:
+  timezone:
+    description: "Get the list of available timezone to be used in the fixtures endpoint."
+    docs: "https://api-sports.io/documentation/football/v3#tag/Timezone"
+
+  countries:
+    description: "Get the list of available countries for the leagues endpoint."
+    docs: "https://api-sports.io/documentation/football/v3#tag/Countries"
+
+  leagues:
+    description: "Get the list of available leagues and cups."
+    docs: "https://api-sports.io/documentation/football/v3#tag/Leagues/operation/get-leagues"
+
+  seasons:
+    description: "Get the list of available seasons"
+    docs: "https://api-sports.io/documentation/football/v3#tag/Leagues/operation/get-seasons"
